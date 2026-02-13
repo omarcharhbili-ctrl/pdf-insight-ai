@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
-import { Zap, FileSearch, MessageSquareText, BarChart3 } from "lucide-react";
+import { Zap, FileSearch, MessageSquareText, BarChart3, ArrowRight } from "lucide-react";
 import PDFUploadZone from "./PDFUploadZone";
 import type { ViewTab } from "./ViewTabs";
 
@@ -9,9 +9,9 @@ interface EmptyStateProps {
 }
 
 const features: { icon: React.ReactNode; title: string; desc: string; tab: ViewTab }[] = [
-  { icon: <FileSearch className="w-5 h-5" />, title: "Smart Summaries", desc: "Instant key-point extraction", tab: "summary" },
-  { icon: <MessageSquareText className="w-5 h-5" />, title: "Document Chat", desc: "Ask anything about your PDF", tab: "chat" },
-  { icon: <BarChart3 className="w-5 h-5" />, title: "Visual Insights", desc: "Auto-generated diagrams", tab: "visuals" },
+  { icon: <FileSearch className="w-4 h-4" />, title: "Smart Summaries", desc: "Instant key-point extraction from any document", tab: "summary" },
+  { icon: <MessageSquareText className="w-4 h-4" />, title: "Document Chat", desc: "Natural language Q&A over your PDF content", tab: "chat" },
+  { icon: <BarChart3 className="w-4 h-4" />, title: "Visual Insights", desc: "Auto-generated diagrams and knowledge graphs", tab: "visuals" },
 ];
 
 const EmptyState = ({ onFileSelect }: EmptyStateProps) => {
@@ -29,24 +29,28 @@ const EmptyState = ({ onFileSelect }: EmptyStateProps) => {
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-8">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="max-w-lg w-full space-y-8"
+        transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="max-w-xl w-full space-y-10"
       >
         {/* Hero */}
-        <div className="text-center space-y-3">
+        <div className="text-center space-y-4">
           <motion.div
-            initial={{ scale: 0.8 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", bounce: 0.3 }}
-            className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto glow-sm"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.1, type: "spring", bounce: 0.2 }}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/8 border border-primary/15 text-primary text-xs font-medium"
           >
-            <Zap className="w-7 h-7 text-primary" />
+            <Zap className="w-3 h-3" />
+            <span>AI-Powered Document Intelligence</span>
           </motion.div>
-          <h1 className="text-3xl font-bold tracking-tight text-gradient">DocuMind</h1>
-          <p className="text-muted-foreground text-sm max-w-sm mx-auto">
-            Upload a PDF to unlock AI-powered summaries, conversations, and visual insights.
+          <h1 className="text-4xl font-bold tracking-tight text-foreground">
+            Understand any document<br />
+            <span className="text-gradient">in seconds</span>
+          </h1>
+          <p className="text-muted-foreground text-sm max-w-md mx-auto leading-relaxed">
+            Upload a PDF to unlock AI-powered summaries, natural language chat, and automated visual insights.
           </p>
         </div>
 
@@ -54,15 +58,15 @@ const EmptyState = ({ onFileSelect }: EmptyStateProps) => {
         <PDFUploadZone onFileSelect={(file) => onFileSelect(file)} uploadedFile={null} onRemoveFile={() => {}} />
 
         {/* Features */}
-        <div className="grid grid-cols-3 gap-3">
+        <div className="space-y-2">
           {features.map((f, i) => (
             <motion.button
               key={f.title}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + i * 0.1 }}
+              transition={{ delay: 0.3 + i * 0.08, ease: "easeOut" }}
               onClick={() => handleFeatureClick(i)}
-              className="text-center p-4 rounded-xl bg-secondary/30 border border-border hover:border-primary/30 hover:bg-secondary/50 hover:glow-sm transition-all duration-200 cursor-pointer"
+              className="w-full flex items-center gap-4 p-3.5 rounded-xl bg-secondary/30 border border-border hover:border-primary/20 hover:bg-secondary/50 transition-all duration-200 cursor-pointer group text-left"
             >
               <input
                 ref={(el) => { fileInputRefs.current[i] = el; }}
@@ -71,11 +75,14 @@ const EmptyState = ({ onFileSelect }: EmptyStateProps) => {
                 className="hidden"
                 onChange={(e) => handleFileChange(e, f.tab)}
               />
-              <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-2">
+              <div className="w-9 h-9 rounded-lg bg-primary/8 text-primary flex items-center justify-center shrink-0 group-hover:bg-primary/12 transition-colors">
                 {f.icon}
               </div>
-              <p className="text-xs font-semibold text-foreground">{f.title}</p>
-              <p className="text-[11px] text-muted-foreground mt-0.5">{f.desc}</p>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-foreground">{f.title}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">{f.desc}</p>
+              </div>
+              <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
             </motion.button>
           ))}
         </div>
