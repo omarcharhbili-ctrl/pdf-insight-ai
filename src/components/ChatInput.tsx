@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Send } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 
 interface ChatInputProps {
   onSend: (message: string) => void;
@@ -32,7 +32,7 @@ const ChatInput = ({ onSend, disabled, placeholder = "Ask about your document...
   };
 
   return (
-    <div className="relative flex items-end gap-2 p-3 rounded-2xl bg-secondary border border-border focus-within:border-primary/30 focus-within:glow-sm transition-all duration-200">
+    <div className="relative flex items-end gap-2 p-3 rounded-xl bg-secondary/60 border border-border focus-within:border-primary/25 transition-colors duration-150">
       <textarea
         ref={textareaRef}
         value={input}
@@ -41,14 +41,14 @@ const ChatInput = ({ onSend, disabled, placeholder = "Ask about your document...
         placeholder={placeholder}
         disabled={disabled}
         rows={1}
-        className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground resize-none outline-none min-h-[24px] max-h-[160px]"
+        className="flex-1 bg-transparent text-[13px] text-foreground placeholder:text-muted-foreground resize-none outline-none min-h-[24px] max-h-[160px]"
       />
       <button
         onClick={handleSubmit}
         disabled={!input.trim() || disabled}
-        className="w-8 h-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shrink-0 disabled:opacity-30 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+        className="w-7 h-7 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shrink-0 disabled:opacity-20 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
       >
-        <Send className="w-4 h-4" />
+        <ArrowUp className="w-3.5 h-3.5" strokeWidth={2.5} />
       </button>
     </div>
   );
