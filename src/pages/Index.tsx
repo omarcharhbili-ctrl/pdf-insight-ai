@@ -42,7 +42,7 @@ const Index = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [activeSession?.messages]);
 
-  const createSession = (file: File) => {
+  const createSession = (file: File, tab?: ViewTab) => {
     const newSession: Session = {
       id: crypto.randomUUID(),
       name: file.name.replace(".pdf", ""),
@@ -52,7 +52,7 @@ const Index = () => {
     };
     setSessions((prev) => [newSession, ...prev]);
     setActiveSessionId(newSession.id);
-    setActiveTab("chat");
+    setActiveTab(tab || "chat");
   };
 
   const handleNewSession = () => {
